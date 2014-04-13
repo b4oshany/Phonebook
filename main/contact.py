@@ -3,6 +3,7 @@ import flask
 import auth
 import model
 from main import app
+import util
 
 class ContactUpdateForm(wtf.Form):
   name = wtf.StringField('Name', [wtf.validators.required()])
@@ -23,10 +24,41 @@ def contact_create():
         address=form.address.data,
       )
     contact_db.put()
-    return flask.redirect(flask.url_for('welcome'))
+    flask.flash('New contact was successfully created!', category='success')
+    return flask.redirect(flask.url_for('contact_list', order='-created'))
   return flask.render_template(
       'contact_create.html',
       html_class='contact-create',
       title='Create Contact',
       form=form,
+    )
+    
+@app.route('/contact/')
+@auth.login_required
+def contact_list():
+  contact_dbs, more_cursor = util.retrieve_dbs(
+      model.Contact.query(),
+      limit=util.param('limit', int),
+      cursor=util.param('cursor'),
+      order=util.param('order') or 'name',
+    )
+  return flask.render_template(
+      'contact_list.html',
+      html_class='contact-list',
+      title='Contact List',
+      contact_dbs=contact_dbs,
+      more_url=util.generate_more_url(more_cursor),
+    )
+    
+@app.route('/contact/<int:contact_id>/')
+@auth.login_required
+def contact_view(contact_id):
+  contact_db = model.Contact.get_by_id(contact_id)
+  if not contact_db or contact_db.user_key != auth.current_user_key():
+    flask.abort(404)
+  return flask.render_template(
+      'contact_view.html',
+      html_class='contact-view',
+      title=contact_db.name,
+      contact_db=contact_db,
     )
