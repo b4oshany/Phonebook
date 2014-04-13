@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 *~
+=======
+>>>>>>> 0459bcc2c84f201c211cea47c071137b8a9254b3
 *.pyc
 *.pyo
 .DS_Store
 .git*
 .hg*
+<<<<<<< HEAD
 bower_components
 main/index.yaml
 main/lib
@@ -13,3 +17,5 @@ main/static/ext
 main/static/min
 node_modules
 temp/
+=======
+>>>>>>> 0459bcc2c84f201c211cea47c071137b8a9254b3
