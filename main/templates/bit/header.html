@@ -12,6 +12,9 @@
     <nav class="collapse navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">
         # include 'bit/contact_menu.html'
+  <li class="{{'active' if html_class == 'contact-create'}}">
+    <a href="{{url_for('contact_create')}}"><i class="fa fa-file"></i> Create Contact</a>
+  </li>        
       </ul>
       <ul class="nav navbar-nav navbar-right">
         # include 'bit/user_menu.html'

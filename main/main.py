@@ -8,6 +8,7 @@ import flask
 import config
 import util
 
+
 app = flask.Flask(__name__)
 app.config.from_object(config)
 app.jinja_env.line_statement_prefix = '#'
@@ -20,6 +21,8 @@ import admin
 import auth
 import task
 import user
+
+import contact
 
 
 if config.DEVELOPMENT:
