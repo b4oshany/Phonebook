@@ -15,10 +15,14 @@
           {{forms.text_field(form.phone)}}
           {{forms.textarea_field(form.address)}}
           <button type="submit" class="btn btn-primary btn-block">
-            Update Contact
+            # if contact_db
+                Update Contact
+              # else
+                Create Contact
+              # endif
           </button>
         </fieldset>
       </form>
     </div>
   </div>
-# endblockc
+# endblock

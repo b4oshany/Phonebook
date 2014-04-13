@@ -27,7 +27,7 @@ def contact_create():
     flask.flash('New contact was successfully created!', category='success')
     return flask.redirect(flask.url_for('contact_list', order='-created'))
   return flask.render_template(
-      'contact_create.html',
+      'contact_update.html',
       html_class='contact-create',
       title='Create Contact',
       form=form,
@@ -60,5 +60,24 @@ def contact_view(contact_id):
       'contact_view.html',
       html_class='contact-view',
       title=contact_db.name,
+      contact_db=contact_db,
+    )
+    
+@app.route('/contact/<int:contact_id>/update/', methods=['GET', 'POST'])
+@auth.login_required
+def contact_update(contact_id):
+  contact_db = model.Contact.get_by_id(contact_id)
+  if not contact_db or contact_db.user_key != auth.current_user_key():
+    flask.abort(404)
+  form = ContactUpdateForm(obj=contact_db)
+  if form.validate_on_submit():
+    form.populate_obj(contact_db)
+    contact_db.put()
+    return flask.redirect(flask.url_for('contact_list', order='-modified'))
+  return flask.render_template(
+      'contact_update.html',
+      html_class='contact-update',
+      title=contact_db.name,
+      form=form,
       contact_db=contact_db,
     )

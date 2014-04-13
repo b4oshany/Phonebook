@@ -24,7 +24,7 @@ import user
 
 import contact
 
-
+config.CONFIG_DB.brand_name = "Oshane's Phonebook"
 if config.DEVELOPMENT:
   from werkzeug import debug
   app.wsgi_app = debug.DebuggedApplication(app.wsgi_app, evalex=True)
